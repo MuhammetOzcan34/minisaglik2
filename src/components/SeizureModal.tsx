@@ -19,8 +19,8 @@ interface SeizureModalProps {
 const SeizureModal = ({ isOpen, onClose, childId }: SeizureModalProps) => {
   const [formData, setFormData] = useState({
     started_at: '',
-    duration_minutes: '',
-    seizure_type: '',
+    duration_seconds: '',
+    seizure_type: 'Miyoklonik Absans Nöbeti',
     observations: '',
     post_seizure_state: '',
     emergency_action: false,
@@ -30,23 +30,23 @@ const SeizureModal = ({ isOpen, onClose, childId }: SeizureModalProps) => {
   const { toast } = useToast();
 
   const seizureTypes = [
-    'tonik_klonik',
-    'absence',
-    'fokal',
-    'miyoklonik',
-    'atonik',
-    'infantil_spazm',
-    'diger'
+    'Miyoklonik Absans Nöbeti',
+    'Miyoklonik Absans',
+    'Klonik',
+    'Tonik',
+    'Atonik',
+    'Tonik-Klonik',
+    'Absans'
   ];
 
   const seizureLabels = {
-    'tonik_klonik': 'Tonik-Klonik (Büyük Nöbet)',
-    'absence': 'Absence (Küçük Nöbet)',
-    'fokal': 'Fokal Nöbet',
-    'miyoklonik': 'Miyoklonik Nöbet',
-    'atonik': 'Atonik Nöbet',
-    'infantil_spazm': 'İnfantil Spazm',
-    'diger': 'Diğer'
+    'Miyoklonik Absans Nöbeti': 'Miyoklonik Absans Nöbeti',
+    'Miyoklonik Absans': 'Miyoklonik Absans',
+    'Klonik': 'Klonik Nöbet',
+    'Tonik': 'Tonik Nöbet',
+    'Atonik': 'Atonik Nöbet',
+    'Tonik-Klonik': 'Tonik-Klonik Nöbet',
+    'Absans': 'Absans Nöbet'
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -67,7 +67,7 @@ const SeizureModal = ({ isOpen, onClose, childId }: SeizureModalProps) => {
         .insert([{
           child_id: childId,
           started_at: formData.started_at,
-          duration_minutes: formData.duration_minutes ? parseInt(formData.duration_minutes) : null,
+          duration_seconds: formData.duration_seconds ? parseInt(formData.duration_seconds) : null,
           seizure_type: formData.seizure_type || null,
           observations: formData.observations || null,
           post_seizure_state: formData.post_seizure_state || null,
@@ -85,8 +85,8 @@ const SeizureModal = ({ isOpen, onClose, childId }: SeizureModalProps) => {
       onClose();
       setFormData({
         started_at: '',
-        duration_minutes: '',
-        seizure_type: '',
+        duration_seconds: '',
+        seizure_type: 'Miyoklonik Absans Nöbeti',
         observations: '',
         post_seizure_state: '',
         emergency_action: false,
@@ -132,16 +132,16 @@ const SeizureModal = ({ isOpen, onClose, childId }: SeizureModalProps) => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="duration_minutes">Süre (dakika)</Label>
+            <Label htmlFor="duration_seconds">Süre (saniye)</Label>
             <Input
-              id="duration_minutes"
+              id="duration_seconds"
               type="number"
-              placeholder="Örn: 2"
-              value={formData.duration_minutes}
-              onChange={(e) => setFormData({...formData, duration_minutes: e.target.value})}
+              placeholder="Örn: 120"
+              value={formData.duration_seconds}
+              onChange={(e) => setFormData({...formData, duration_seconds: e.target.value})}
               disabled={loading}
               min="0"
-              step="0.1"
+              step="1"
             />
           </div>
 
