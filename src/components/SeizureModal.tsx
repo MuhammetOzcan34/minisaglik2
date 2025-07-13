@@ -20,7 +20,7 @@ const SeizureModal = ({ isOpen, onClose, childId }: SeizureModalProps) => {
   const [formData, setFormData] = useState({
     started_at: '',
     duration_seconds: '',
-    seizure_type: 'Miyoklonik Absans Nöbeti',
+    seizure_type: 'Miyoklonik Absans',
     observations: '',
     post_seizure_state: '',
     emergency_action: false,
@@ -30,7 +30,6 @@ const SeizureModal = ({ isOpen, onClose, childId }: SeizureModalProps) => {
   const { toast } = useToast();
 
   const seizureTypes = [
-    'Miyoklonik Absans Nöbeti',
     'Miyoklonik Absans',
     'Klonik',
     'Tonik',
@@ -40,7 +39,6 @@ const SeizureModal = ({ isOpen, onClose, childId }: SeizureModalProps) => {
   ];
 
   const seizureLabels = {
-    'Miyoklonik Absans Nöbeti': 'Miyoklonik Absans Nöbeti',
     'Miyoklonik Absans': 'Miyoklonik Absans',
     'Klonik': 'Klonik Nöbet',
     'Tonik': 'Tonik Nöbet',
@@ -86,7 +84,7 @@ const SeizureModal = ({ isOpen, onClose, childId }: SeizureModalProps) => {
       setFormData({
         started_at: '',
         duration_seconds: '',
-        seizure_type: 'Miyoklonik Absans Nöbeti',
+        seizure_type: 'Miyoklonik Absans',
         observations: '',
         post_seizure_state: '',
         emergency_action: false,

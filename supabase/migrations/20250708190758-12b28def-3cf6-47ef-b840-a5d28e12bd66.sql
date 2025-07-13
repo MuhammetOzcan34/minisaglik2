@@ -100,7 +100,7 @@ CREATE TABLE public.seizures (
     child_id UUID NOT NULL REFERENCES public.children(id) ON DELETE CASCADE,
     started_at TIMESTAMP WITH TIME ZONE NOT NULL,
     duration_seconds INTEGER,
-    seizure_type TEXT CHECK (seizure_type IN ('Miyoklonik Absans Nöbeti', 'Miyoklonik Absans', 'Klonik', 'Tonik', 'Atonik', 'Tonik-Klonik', 'Absans')),
+    seizure_type TEXT CHECK (seizure_type IN ('Miyoklonik Absans', 'Klonik', 'Tonik', 'Atonik', 'Tonik-Klonik', 'Absans')),
     observations TEXT,
     post_seizure_state TEXT,
     emergency_action BOOLEAN DEFAULT false,

@@ -19,7 +19,6 @@ const SeizuresPage = () => {
   const { toast } = useToast();
 
   const seizureLabels = {
-    'Miyoklonik Absans Nöbeti': 'Miyoklonik Absans Nöbeti',
     'Miyoklonik Absans': 'Miyoklonik Absans',
     'Klonik': 'Klonik Nöbet',
     'Tonik': 'Tonik Nöbet',
