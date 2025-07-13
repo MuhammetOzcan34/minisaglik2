@@ -1,0 +1,21 @@
+
+{
+  "name": "Çocuk Sağlığı Takip Uygulaması",
+  "short_name": "Çocuk Sağlığı",
+  "description": "Çocuğunuzun sağlığını ve gelişimini kapsamlı şekilde takip edin",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["health", "medical", "lifestyle"],
+  "lang": "tr",
+  "dir": "ltr"
+}
