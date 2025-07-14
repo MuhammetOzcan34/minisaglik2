@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Clock } from 'lucide-react';
+import { Plus, Clock, BookOpen, Gamepad2, Dumbbell, Bath, Tooth, Users, Bed } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import DailyRoutineModal from "@/components/DailyRoutineModal";
@@ -17,6 +17,44 @@ const RoutinePage = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const { toast } = useToast();
+
+  const activityLabels = {
+    'uyku': 'Uyku',
+    'oyun': 'Oyun',
+    'egzersiz': 'Egzersiz', 
+    'okuma': 'Okuma',
+    'banyo': 'Banyo',
+    'dis_fircalama': 'Diş Fırçalama',
+    'ders': 'Ders/Ödev',
+    'sosyal': 'Sosyal Aktivite',
+    'diger': 'Diğer'
+  };
+
+  const activityIcons = {
+    'uyku': Bed,
+    'oyun': Gamepad2,
+    'egzersiz': Dumbbell,
+    'okuma': BookOpen,
+    'banyo': Bath,
+    'dis_fircalama': Tooth,
+    'ders': BookOpen,
+    'sosyal': Users,
+    'diger': Clock
+  };
+
+  const completionStatusLabels = {
+    'completed': 'Tamamlandı',
+    'partial': 'Kısmen Tamamlandı',
+    'skipped': 'Atlandı'
+  };
+
+  const sleepQualityLabels = {
+    'çok iyi': 'Çok İyi',
+    'iyi': 'İyi',
+    'orta': 'Orta',
+    'kötü': 'Kötü',
+    'çok kötü': 'Çok Kötü'
+  };
 
   useEffect(() => {
     if (selectedChild) {
@@ -48,6 +86,28 @@ const RoutinePage = () => {
   const handleActivityAdded = () => {
     setShowModal(false);
     loadActivities();
+  };
+
+  const getActivityDetails = (activity: any) => {
+    const details = [];
+
+    // Aktivite türüne göre özel alanlar
+    if (activity.activity_type === 'uyku') {
+      if (activity.bedtime) details.push(`Yatma: ${activity.bedtime}`);
+      if (activity.wake_time) details.push(`Uyanma: ${activity.wake_time}`);
+      if (activity.sleep_quality) details.push(`Kalite: ${sleepQualityLabels[activity.sleep_quality]}`);
+    } else if (activity.activity_type === 'ders') {
+      if (activity.subject) details.push(`Ders: ${activity.subject}`);
+      if (activity.activity_subtype) details.push(`Tür: ${activity.activity_subtype}`);
+    } else if (activity.activity_subtype) {
+      details.push(`Tür: ${activity.activity_subtype}`);
+    }
+
+    // Genel alanlar
+    if (activity.duration_minutes) details.push(`Süre: ${activity.duration_minutes} dakika`);
+    if (activity.completion_status) details.push(`Durum: ${completionStatusLabels[activity.completion_status]}`);
+
+    return details;
   };
 
   if (!selectedChild) {
@@ -98,43 +158,51 @@ const RoutinePage = () => {
             </CardContent>
           </Card>
         ) : (
-          activities.map((activity) => (
-            <Card key={activity.id}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Clock className="h-5 w-5" />
-                  {activity.activity_type}
-                </CardTitle>
-                <CardDescription>
-                  {new Date(activity.activity_date).toLocaleDateString('tr-TR')}
-                  {activity.activity_time && ` • ${activity.activity_time}`}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {activity.description && (
-                    <p><strong>Açıklama:</strong> {activity.description}</p>
-                  )}
-                  {activity.duration_minutes && (
-                    <p><strong>Süre:</strong> {activity.duration_minutes} dakika</p>
-                  )}
-                  {activity.completion_status && (
-                    <p><strong>Durum:</strong> {activity.completion_status}</p>
-                  )}
-                  {activity.notes && (
-                    <p><strong>Notlar:</strong> {activity.notes}</p>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          ))
+          activities.map((activity) => {
+            const ActivityIcon = activityIcons[activity.activity_type] || Clock;
+            const activityDetails = getActivityDetails(activity);
+            
+            return (
+              <Card key={activity.id} className="border-l-4 border-l-blue-500">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <ActivityIcon className="h-5 w-5 text-blue-600" />
+                    {activity.activity_type ? activityLabels[activity.activity_type] || activity.activity_type : 'Aktivite'}
+                  </CardTitle>
+                  <CardDescription>
+                    {new Date(activity.activity_date).toLocaleDateString('tr-TR')}
+                    {activity.activity_time && ` • ${activity.activity_time}`}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {activityDetails.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {activityDetails.map((detail, index) => (
+                          <span key={index} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            {detail}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    {activity.description && (
+                      <p><strong>Açıklama:</strong> {activity.description}</p>
+                    )}
+                    {activity.notes && (
+                      <p><strong>Notlar:</strong> {activity.notes}</p>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })
         )}
       </div>
 
       {showModal && (
         <DailyRoutineModal
           isOpen={showModal}
-          onClose={() => setShowModal(false)}
+          onClose={handleActivityAdded}
           childId={selectedChild.id}
         />
       )}

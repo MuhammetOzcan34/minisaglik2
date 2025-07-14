@@ -99,7 +99,7 @@ CREATE TABLE public.seizures (
     id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
     child_id UUID NOT NULL REFERENCES public.children(id) ON DELETE CASCADE,
     started_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    duration_minutes INTEGER,
+    duration_seconds INTEGER,
     seizure_type TEXT CHECK (seizure_type IN ('Miyoklonik Absans', 'Klonik', 'Tonik', 'Atonik', 'Tonik-Klonik', 'Absans')),
     observations TEXT,
     post_seizure_state TEXT,

@@ -19,13 +19,12 @@ const SeizuresPage = () => {
   const { toast } = useToast();
 
   const seizureLabels = {
-    'tonik_klonik': 'Tonik-Klonik (Büyük Nöbet)',
-    'absence': 'Absence (Küçük Nöbet)',
-    'fokal': 'Fokal Nöbet',
-    'miyoklonik': 'Miyoklonik Nöbet',
-    'atonik': 'Atonik Nöbet',
-    'infantil_spazm': 'İnfantil Spazm',
-    'diger': 'Diğer'
+    'Miyoklonik Absans': 'Miyoklonik Absans',
+    'Klonik': 'Klonik Nöbet',
+    'Tonik': 'Tonik Nöbet',
+    'Atonik': 'Atonik Nöbet',
+    'Tonik-Klonik': 'Tonik-Klonik Nöbet',
+    'Absans': 'Absans Nöbet'
   };
 
   useEffect(() => {
@@ -124,8 +123,8 @@ const SeizuresPage = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {seizure.duration_minutes && (
-                    <p><strong>Süre:</strong> {seizure.duration_minutes} dakika</p>
+                  {seizure.duration_seconds && (
+                    <p><strong>Süre:</strong> {seizure.duration_seconds} saniye</p>
                   )}
                   {seizure.observations && (
                     <p><strong>Gözlemler:</strong> {seizure.observations}</p>
