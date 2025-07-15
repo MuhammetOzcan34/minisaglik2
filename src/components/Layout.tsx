@@ -7,6 +7,7 @@ import ChildSelector from "@/components/ChildSelector";
 import FamilySetup from "@/components/FamilySetup";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import notificationService from "@/services/notificationService";
 
 const Layout = () => {
   const [children, setChildren] = useState<any[]>([]);
@@ -21,6 +22,8 @@ const Layout = () => {
 
   useEffect(() => {
     checkUser();
+    // Bildirim servisini başlat
+    notificationService.initialize();
   }, []);
 
   const checkUser = async () => {

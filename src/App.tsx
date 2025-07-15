@@ -15,6 +15,7 @@ import SeizuresPage from "./pages/SeizuresPage";
 import MedicationsPage from "./pages/MedicationsPage";
 import TemperaturePage from "./pages/TemperaturePage";
 import CalendarPage from "./pages/CalendarPage";
+import SettingsPage from "./pages/SettingsPage";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="medications" element={<MedicationsPage />} />
             <Route path="temperature" element={<TemperaturePage />} />
             <Route path="calendar" element={<CalendarPage />} />
+            <Route path="settings" element={<SettingsPage />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
